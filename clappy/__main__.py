@@ -1,8 +1,38 @@
 import os
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import discord
 from dotenv import load_dotenv
 
 load_dotenv()
 
-print(f'DISCORD_BOT_CLIENT_ID: {os.getenv("DISCORD_BOT_CLIENT_ID")}')
-print(f'DISCORD_BOT_SECRET: {os.getenv("DISCORD_BOT_SECRET")}')
+
+class Client(discord.Client):
+    async def on_ready(self):
+        print(f"logged in as {self.user}")
+
+    async def on_message(self, message):
+        print(f"message fromm {message.author}: {message.content}")
+
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+client = Client(intents=intents)
+
+token = os.getenv("DISCORD_BOT_TOKEN", "")
+
+client.run(token)
